@@ -34,7 +34,7 @@ mod full_limbs {
         use getrandom::{rand_core::UnwrapErr, SysRng};
 
         let _ = F384p::random(&mut UnwrapErr(SysRng));
-        let _ = F384p::try_from_rng(&mut SysRng).unwrap();
+        let _ = F384p::try_random(&mut SysRng).unwrap();
     }
 }
 

@@ -76,12 +76,12 @@ pub trait Field:
 
     /// Returns an element chosen uniformly at random using a user-provided RNG.
     fn random<R: Rng + ?Sized>(rng: &mut R) -> Self {
-        let Ok(out) = Self::try_from_rng(rng);
+        let Ok(out) = Self::try_random(rng);
         out
     }
 
     /// Returns an element chosen uniformly at random using a user-provided RNG.
-    fn try_from_rng<R: TryRng + ?Sized>(rng: &mut R) -> Result<Self, R::Error>;
+    fn try_random<R: TryRng + ?Sized>(rng: &mut R) -> Result<Self, R::Error>;
 
     /// Returns true iff this element is zero.
     fn is_zero(&self) -> Choice {
