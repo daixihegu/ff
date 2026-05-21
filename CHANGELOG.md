@@ -8,13 +8,14 @@ and this library adheres to Rust's notion of
 ## [Unreleased]
 
 ### Changed
-- MSRV is now 1.63.0.
-- Migrated to `rand_core 0.9`.
+- MSRV is now 1.85.0.
+- Migrated to `rand_core 0.10`.
 - `ff::Field::random(rng: impl RngCore) -> Self` has been changed back to
-  `Field::random<R: RngCore + ?Sized>(rng: &mut R) -> Self`, to enable passing a
+  `Field::random<R: Rng + ?Sized>(rng: &mut R) -> Self`, to enable passing a
   trait object as the RNG.
-- `ff::Field::try_from_rng` is a new trait method that must be implemented by
-  downstreams. `Field::random` now has a default implementation that calls it.
+- `ff::Field::try_random<R: TryRng + ?Sized>(rng: &mut R) -> Result<Self, R::Error>`
+  is a new trait method that must be implemented by downstreams. `Field::random`
+  now has a default implementation that calls it.
 
 ### Removed
 - `derive_bits` feature flag (use `bits` instead).
