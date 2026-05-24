@@ -7,6 +7,7 @@ and this library adheres to Rust's notion of
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-05-27
 ### Added
 - `ff::Field::try_random<R: TryRng + ?Sized>(rng: &mut R) -> Result<Self, R::Error>`,
   a new trait method that must be implemented by downstreams. It samples a field

@@ -22,7 +22,7 @@ Add the `ff` crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-ff = "0.13"
+ff = "0.14"
 ```
 
 The `ff` crate contains the `Field` and `PrimeField` traits.
@@ -39,7 +39,7 @@ First, enable the `derive` crate feature:
 
 ```toml
 [dependencies]
-ff = { version = "0.13", features = ["derive"] }
+ff = { version = "0.14", features = ["derive"] }
 ```
 
 And then use the macro like so:
