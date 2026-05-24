@@ -6,7 +6,7 @@ authors = [
     "Jack Grigg <thestr4d@gmail.com>",
 ]
 edition = "2021"
-rust-version = "1.63"
+rust-version = "1.85"
 description = "Procedural macro library used to build custom prime field implementations"
 documentation = "https://docs.rs/ff-derive/"
 homepage = "https://github.com/zkcrypto/ff"
