@@ -303,7 +303,7 @@ fn validate_struct(ast: &syn::DeriveInput, limbs: usize) -> Option<proc_macro2::
 fn fetch_attr(name: &str, attrs: &[syn::Attribute]) -> Option<String> {
     for attr in attrs {
         if let syn::Meta::NameValue(nv) = &attr.meta {
-            if nv.path.get_ident().map(|i| i.to_string()) == Some(name.to_string()) {
+            if nv.path.is_ident(name) {
                 if let syn::Expr::Lit(expr_lit) = &nv.value {
                     if let syn::Lit::Str(ref s) = expr_lit.lit {
                         return Some(s.value());
