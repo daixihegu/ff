@@ -157,4 +157,5 @@ fn sqrt() {
     test(Fp::ZERO);
     test(Fp::ONE);
     test(Fp::random(&mut UnwrapErr(SysRng)));
+    test(Fp::try_random(&mut SysRng).unwrap());
 }
