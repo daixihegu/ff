@@ -302,21 +302,14 @@ fn validate_struct(ast: &syn::DeriveInput, limbs: usize) -> Option<proc_macro2::
 /// Fetch an attribute string from the derived struct.
 fn fetch_attr(name: &str, attrs: &[syn::Attribute]) -> Option<String> {
     for attr in attrs {
-        if let Ok(meta) = attr.parse_meta() {
-            match meta {
-                syn::Meta::NameValue(nv) => {
-                    if nv.path.get_ident().map(|i| i.to_string()) == Some(name.to_string()) {
-                        match nv.lit {
-                            syn::Lit::Str(ref s) => return Some(s.value()),
-                            _ => {
-                                panic!("attribute {} should be a string", name);
-                            }
-                        }
+        if let syn::Meta::NameValue(nv) = &attr.meta {
+            if nv.path.is_ident(name) {
+                if let syn::Expr::Lit(expr_lit) = &nv.value {
+                    if let syn::Lit::Str(ref s) = expr_lit.lit {
+                        return Some(s.value());
                     }
                 }
-                _ => {
-                    panic!("attribute {} should be a string", name);
-                }
+                panic!("attribute {} should be a string", name);
             }
         }
     }
@@ -1259,12 +1252,12 @@ fn prime_field_impl(
             const ONE: Self = R;
 
             /// Computes a uniformly random element using rejection sampling.
-            fn random(mut rng: impl ::ff::derive::rand_core::RngCore) -> Self {
+            fn try_random<R: ::ff::derive::rand_core::TryRng + ?Sized>(rng: &mut R) -> ::core::result::Result<Self, R::Error> {
                 loop {
                     let mut tmp = {
                         let mut repr = [0u64; #limbs];
                         for i in 0..#limbs {
-                            repr[i] = rng.next_u64();
+                            repr[i] = rng.try_next_u64()?;
                         }
                         #name(repr)
                     };
@@ -1277,7 +1270,7 @@ fn prime_field_impl(
                     tmp.0[#top_limb_index] &= 0xffffffffffffffffu64.checked_shr(REPR_SHAVE_BITS).unwrap_or(0);
 
                     if tmp.is_valid() {
-                        return tmp
+                        return Ok(tmp)
                     }
                 }
             }

@@ -47,7 +47,7 @@ jobs:
     strategy:
       matrix:
         target:
-          - wasm32-wasi
+          - wasm32-wasip1
           - thumbv6m-none-eabi
           - thumbv7em-none-eabihf
     steps:
@@ -91,8 +91,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: cargo fetch
-      # Requires #![deny(rustdoc::broken_intra_doc_links)] in crates.
-      - run: sudo apt-get -y install libfontconfig1-dev
       - name: Check intra-doc links
         run: cargo doc --all-features --document-private-items
 

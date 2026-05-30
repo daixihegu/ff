@@ -29,7 +29,7 @@ use core::fmt;
 use core::iter::{Product, Sum};
 use core::ops::{Add, AddAssign, Mul, MulAssign, Neg, Sub, SubAssign};
 
-use rand_core::RngCore;
+use rand_core::{Rng, TryRng};
 use subtle::{Choice, ConditionallySelectable, ConstantTimeEq, CtOption};
 
 /// Bit representation of a field element.
@@ -74,8 +74,22 @@ pub trait Field:
     /// The one element of the field, the multiplicative identity.
     const ONE: Self;
 
-    /// Returns an element chosen uniformly at random using a user-provided RNG.
-    fn random(rng: impl RngCore) -> Self;
+    /// Returns an element chosen uniformly at random using a user-provided infallible RNG.
+    ///
+    /// This is a convenience wrapper around [`Field::try_random`] for RNGs that cannot
+    /// fail. Use [`Field::try_random`] if your RNG may fail (for example, an OS-backed
+    /// entropy source).
+    fn random<R: Rng + ?Sized>(rng: &mut R) -> Self {
+        let Ok(out) = Self::try_random(rng);
+        out
+    }
+
+    /// Returns an element chosen uniformly at random using a user-provided fallible RNG.
+    ///
+    /// Returns `Err` propagating the RNG's error if the underlying RNG fails to produce
+    /// the randomness required to sample an element. Implementors of `Field` must
+    /// provide this method; [`Field::random`] is derived from it for infallible RNGs.
+    fn try_random<R: TryRng + ?Sized>(rng: &mut R) -> Result<Self, R::Error>;
 
     /// Returns true iff this element is zero.
     fn is_zero(&self) -> Choice {

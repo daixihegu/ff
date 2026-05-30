@@ -22,7 +22,7 @@ Add the `ff` crate to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-ff = "0.13"
+ff = "0.14"
 ```
 
 The `ff` crate contains the `Field` and `PrimeField` traits.
@@ -39,7 +39,7 @@ First, enable the `derive` crate feature:
 
 ```toml
 [dependencies]
-ff = { version = "0.13", features = ["derive"] }
+ff = { version = "0.14", features = ["derive"] }
 ```
 
 And then use the macro like so:
@@ -59,7 +59,7 @@ And that's it! `Fp` now implements `Field` and `PrimeField`.
 
 ## Minimum Supported Rust Version
 
-Requires Rust **1.56** or higher.
+Requires Rust **1.85** or higher.
 
 Minimum supported Rust version can be changed in the future, but it will be done with a
 minor version bump.

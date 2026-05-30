@@ -1,12 +1,12 @@
 [package]
 name = "ff_derive"
-version = "0.13.1"
+version = "0.14.0"
 authors = [
     "Sean Bowe <ewillbefull@gmail.com>",
     "Jack Grigg <thestr4d@gmail.com>",
 ]
 edition = "2021"
-rust-version = "1.56"
+rust-version = "1.85"
 description = "Procedural macro library used to build custom prime field implementations"
 documentation = "https://docs.rs/ff-derive/"
 homepage = "https://github.com/zkcrypto/ff"
@@ -15,19 +15,20 @@ repository = "https://github.com/zkcrypto/ff"
 
 [features]
 # enabled when generating bitvec code utilizing the version of ff's bitvec
+# ff/bits enables this
 bits = []
 
 [lib]
 proc-macro = true
 
 [dependencies]
-addchain = "0.2"
-num-bigint = "0.3"
+addchain = "0.3"
+num-bigint = "0.4"
 num-traits = "0.2"
 num-integer = "0.1"
 proc-macro2 = "1"
 quote = "1"
-syn = { version = "1", features = ["full"] }
+syn = { version = "2", features = ["full"] }
 
 [badges]
 maintenance = { status = "passively-maintained" }
